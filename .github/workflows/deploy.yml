@@ -27,14 +27,11 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: 4. Bersihkan Cache & Inisialisasi Dependensi
-        run: |
-          flutter config --enable-web
-          flutter clean
-          flutter pub get
+      - name: 4. Install Dependencies
+        run: flutter pub get
 
       - name: 5. Build Flutter Web
-        run: flutter build web --release --web-renderer html --base-href "/panahan/" --verbose
+        run: flutter build web --release --base-href "/panahan/"
 
       - name: 6. Deploy ke GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
