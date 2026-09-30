@@ -13,28 +13,31 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: 1. Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: 2. Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter
+      - name: 3. Setup Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.x'
           channel: 'stable'
 
-      - name: Get Dependencies
+      - name: 4. Inisialisasi Platform Web
+        # Baris ini memastikan seluruh modul web otomatis digenerate lengkap jika ada yang kurang
+        run: flutter create . --platforms web
+
+      - name: 5. Ambil Dependencies
         run: flutter pub get
 
-      - name: Build Flutter Web
+      - name: 6. Build Web
         run: flutter build web --release --base-href "/panahan/"
 
-      - name: Deploy to GitHub Pages
+      - name: 7. Deploy ke GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
