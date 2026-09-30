@@ -39,8 +39,8 @@ jobs:
           flutter pub add http
           flutter pub get
 
-      - name: 6. Build Flutter Web (WASM disabled untuk kompabilitas tinggi)
-        run: flutter build web --release --no-wasm --base-href "/panahan/"
+      - name: 6. Build Flutter Web
+        run: flutter build web --release --base-href "/panahan/"
 
       - name: 7. Deploy ke GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
