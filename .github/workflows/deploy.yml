@@ -13,30 +13,36 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 1. Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: 2. Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter
+      - name: 3. Setup Flutter SDK
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      - name: Inisialisasi Platform Web
-        run: flutter create . --platforms web
+      - name: 4. Buat Konfigurasi Web Saja
+        # Hanya membuat folder web jika belum lengkap tanpa merusak pubspec.yaml
+        run: |
+          flutter config --enable-web
+          flutter create . --platforms=web
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - name: 5. Tambah Dependency HTTP & Install
+        # Memastikan package http terpasang 100% di server build
+        run: |
+          flutter pub add http
+          flutter pub get
 
-      - name: Build Web
-        run: flutter build web --release --base-href "/panahan/"
+      - name: 6. Build Flutter Web (WASM disabled untuk kompabilitas tinggi)
+        run: flutter build web --release --no-wasm --base-href "/panahan/"
 
-      - name: Deploy ke GitHub Pages
+      - name: 7. Deploy ke GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
