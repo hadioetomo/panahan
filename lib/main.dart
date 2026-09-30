@@ -13,7 +13,7 @@ class AppColors {
   static const Color surface = Color(0xFF131B2E);
   static const Color card = Color(0xFF1E293B);
   static const Color border = Color(0xFF334155);
-  static const Color primary = Color(0xFF10B981); // Emerald
+  static const Color primary = Color(0xFF10B981);
   static const Color liveRed = Color(0xFFEF4444);
   static const Color gold = Color(0xFFF59E0B);
   static const Color silver = Color(0xFF94A3B8);
@@ -28,13 +28,11 @@ class ArcheryEvent {
   final String id;
   final String title;
   final String date;
-  final bool isLive;
 
   ArcheryEvent({
     required this.id,
     required this.title,
     required this.date,
-    this.isLive = true,
   });
 }
 
@@ -46,7 +44,6 @@ class ArcheryCategory {
   final Gender gender;
   final String bowType;
   final String distance;
-  final int arrowsPerEnd;
 
   ArcheryCategory({
     required this.id,
@@ -56,7 +53,6 @@ class ArcheryCategory {
     required this.gender,
     required this.bowType,
     required this.distance,
-    this.arrowsPerEnd = 6,
   });
 }
 
@@ -175,7 +171,10 @@ class ArcheryApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: AppColors.background,
-        primaryColor: AppColors.primary,
+        colorScheme: const ColorScheme.dark(
+          primary: AppColors.primary,
+          surface: AppColors.surface,
+        ),
       ),
       home: const HomePage(),
     );
@@ -255,7 +254,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(width: 12),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(color: AppColors.liveRed.withOpacity(0.2), borderRadius: BorderRadius.circular(20)),
+              decoration: BoxDecoration(color: AppColors.liveRed.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20)),
               child: Text("${events.length} LIVE", style: const TextStyle(color: AppColors.liveRed, fontSize: 10, fontWeight: FontWeight.bold)),
             ),
           ],
@@ -313,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: selected ? AppColors.primary.withOpacity(0.15) : AppColors.surface,
+                      color: selected ? AppColors.primary.withValues(alpha: 0.15) : AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: selected ? AppColors.primary : AppColors.border),
                     ),
