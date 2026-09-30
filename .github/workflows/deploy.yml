@@ -27,19 +27,17 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: 4. Buat Konfigurasi Web Saja
-        # Hanya membuat folder web jika belum lengkap tanpa merusak pubspec.yaml
+      - name: 4. Buat Platform Web
         run: |
           flutter config --enable-web
           flutter create . --platforms=web
 
-      - name: 5. Tambah Dependency HTTP & Install
-        # Memastikan package http terpasang 100% di server build
+      - name: 5. Tambah Dependency
         run: |
           flutter pub add http
           flutter pub get
 
-      - name: 6. Build Flutter Web
+      - name: 6. Build Web
         run: flutter build web --release --base-href "/panahan/"
 
       - name: 7. Deploy ke GitHub Pages
